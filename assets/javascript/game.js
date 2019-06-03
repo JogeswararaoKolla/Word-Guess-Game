@@ -10,6 +10,7 @@ let userKeyPress = [];
 let gameOverStats = false;
 let winStats = false;
 let winsCount = 0;
+let losesCount = 0;
 let guessWord = '';
 let guessWordList = [];
 
@@ -32,6 +33,7 @@ function startWordGuessGame() {
     document.getElementById("noofguess").innerText = noOfGuess;
     document.getElementById("letter-guessed").innerText = userKeyPress.join();
     document.getElementById("wins").innerText = winsCount;
+    document.getElementById("loses").innerText = losesCount;
 }
 
 function arrayEqualsCheck(arr1, arr2) {
@@ -42,11 +44,13 @@ function arrayEqualsCheck(arr1, arr2) {
     for (i = 0; i < arr1.length; i++) {
         if (arr1[i] != arr2[i]) {
             winStats = false;
+            losesCount++;
             return winStats;
         }
     }
     winsCount++;
     document.getElementById("wins").innerText = winsCount;
+    document.getElementById("loses").innerText = losesCount;
     winStats = true;
     gameOverStats = true;
     return winStats;
@@ -64,6 +68,47 @@ function validateCharCode(charValue) {
 
 }
 
+// Jquery will change only one ID element. 
+$("#idimgbutton").on("click",function(){
+     $(".idImg").attr("src","/Users/jogeswararaokolla/Documents/Images/pineapple.jpeg");
+});
+
+let images=["Grapes.jpeg",
+    "Apples.jpeg",
+    "Strawberries.jpeg",
+    "Lychee.jpeg",
+    "Watermelon.jpeg",
+    "Oranges.jpeg",
+    "Mango.jpeg",
+    "rasberries.jpeg",
+    "pineapple.jpeg",
+    "Pears.jpeg"];
+
+$("#idimgbuttonall").on("click",function(){
+   
+   $("#NewImages").empty();
+    
+  for (let j=0;j<images.length;j++)
+  { 
+      let image_local=$("<img>");
+      let image_path="/Users/jogeswararaokolla/Documents/Images/"+ images[j];
+      image_local.addClass("imgnewImages");
+      image_local.attr("src",image_path);
+      image_local.attr("width",200);
+      image_local.attr("height",200);
+
+      console.log(image_path);
+      $("#NewImages").append(image_local);
+  }
+
+});
+
+$("#idbuttonchgall").on("click",function(){
+    $("#idimgbuttonall").hide();
+    $(".imgnewImages").attr("src","/Users/jogeswararaokolla/Documents/Images/pineapple.jpeg");
+});
+
+
 startWordGuessGame();
 
 document.onkeyup = function (event) {
@@ -80,7 +125,7 @@ document.onkeyup = function (event) {
     if (noOfGuess == 0) {
         gameOverStats = true;
     }
-
+    
     if (!gameOverStats) {
         if (guessWordList.includes(user_key)) {
             startIdx = guessWordList.indexOf(user_key);
