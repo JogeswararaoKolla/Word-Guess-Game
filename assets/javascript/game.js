@@ -14,6 +14,8 @@ let losesCount = 0;
 let guessWord = '';
 let guessWordList = [];
 
+let  guessWordObj={};
+
 
 function startWordGuessGame() {
     userKeyPress = [];
@@ -23,7 +25,6 @@ function startWordGuessGame() {
     lastIndex = 0;
     noOfGuess = 15;
     randIdx = Math.floor(Math.random() * currentWordList.length);
-    console.log(randIdx);
     currentWordTmp.length = currentWordList[randIdx].length;
     currentWordTmp.fill('-');
     guessWord = currentWordList[randIdx];
@@ -44,13 +45,11 @@ function arrayEqualsCheck(arr1, arr2) {
     for (i = 0; i < arr1.length; i++) {
         if (arr1[i] != arr2[i]) {
             winStats = false;
-            losesCount++;
             return winStats;
         }
     }
     winsCount++;
     document.getElementById("wins").innerText = winsCount;
-    document.getElementById("loses").innerText = losesCount;
     winStats = true;
     gameOverStats = true;
     return winStats;
@@ -114,7 +113,7 @@ startWordGuessGame();
 document.onkeyup = function (event) {
 
     let user_key = String.fromCharCode(event.keyCode).toLowerCase();
-
+// Code to capture the unique user guess letters 
     if (validateCharCode(event.keyCode) && (userKeyPress.indexOf(user_key) == -1)) {
         userKeyPress.push(user_key);
         noOfGuess--;
@@ -124,8 +123,12 @@ document.onkeyup = function (event) {
 
     if (noOfGuess == 0) {
         gameOverStats = true;
+        if(!winStats){
+        losesCount++;
+        document.getElementById("loses").innerText = losesCount;
+        }
     }
-    
+
     if (!gameOverStats) {
         if (guessWordList.includes(user_key)) {
             startIdx = guessWordList.indexOf(user_key);
