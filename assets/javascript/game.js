@@ -1,5 +1,16 @@
 // Global Variable Declarations
-let currentWordList = ["apple", "oranges", "bananas", "lime"];
+let currentWordList = ["Grapes", "Apples", "Strawberries", "Lychee", "Watermelon", "Oranges", "Mango", "rasberries", "pineapple", "Pears"];
+let imagesList = ["Grapes.jpeg",
+    "Apples.jpeg",
+    "Strawberries.jpeg",
+    "Lychee.jpeg",
+    "Watermelon.jpeg",
+    "Oranges.jpeg",
+    "Mango.jpeg",
+    "rasberries.jpeg",
+    "pineapple.jpeg",
+    "Pears.jpeg"];
+
 let currentWordTmp = [];
 let i = 0,
     startIdx = 0,
@@ -14,8 +25,24 @@ let losesCount = 0;
 let guessWord = '';
 let guessWordList = [];
 
-let  guessWordObj={};
+let guessWordObj = {};
 
+let guessWordObjArray=[];
+
+function CreateGuessword() {
+    for (let i = 0; i < currentWordList.length; i++) {
+            let guessWordObj={
+                word:currentWordList[i],
+                wordimage:imagesList[i]
+            }
+         guessWordObjArray.push(guessWordObj);
+
+            }
+        console.log(guessWordObjArray);
+}
+
+
+CreateGuessword();
 
 function startWordGuessGame() {
     userKeyPress = [];
@@ -24,12 +51,15 @@ function startWordGuessGame() {
     startIdx = 0;
     lastIndex = 0;
     noOfGuess = 15;
-    randIdx = Math.floor(Math.random() * currentWordList.length);
-    currentWordTmp.length = currentWordList[randIdx].length;
+    randIdx = Math.floor(Math.random() * guessWordObjArray.length);
+    console.log(guessWordObjArray[randIdx]);
+    currentWordTmp.length = guessWordObjArray[randIdx].word.length;
     currentWordTmp.fill('-');
-    guessWord = currentWordList[randIdx];
+    guessWord = guessWordObjArray[randIdx].word.toLowerCase();
     guessWordList = Array.from(guessWord);
     console.log(guessWordList);
+    console.log(guessWordObjArray[randIdx].wordimage);
+    document.getElementById("imageID").src = "../assets/images/" + guessWordObjArray[randIdx].wordimage;
     document.getElementById("current-word").innerText = currentWordTmp.join('');
     document.getElementById("noofguess").innerText = noOfGuess;
     document.getElementById("letter-guessed").innerText = userKeyPress.join();
@@ -67,12 +97,7 @@ function validateCharCode(charValue) {
 
 }
 
-// Jquery will change only one ID element. 
-$("#idimgbutton").on("click",function(){
-     $(".idImg").attr("src","/Users/jogeswararaokolla/Documents/Images/pineapple.jpeg");
-});
-
-let images=["Grapes.jpeg",
+let images = ["Grapes.jpeg",
     "Apples.jpeg",
     "Strawberries.jpeg",
     "Lychee.jpeg",
@@ -83,37 +108,12 @@ let images=["Grapes.jpeg",
     "pineapple.jpeg",
     "Pears.jpeg"];
 
-$("#idimgbuttonall").on("click",function(){
-   
-   $("#NewImages").empty();
-    
-  for (let j=0;j<images.length;j++)
-  { 
-      let image_local=$("<img>");
-      let image_path="/Users/jogeswararaokolla/Documents/Images/"+ images[j];
-      image_local.addClass("imgnewImages");
-      image_local.attr("src",image_path);
-      image_local.attr("width",200);
-      image_local.attr("height",200);
-
-      console.log(image_path);
-      $("#NewImages").append(image_local);
-  }
-
-});
-
-$("#idbuttonchgall").on("click",function(){
-    $("#idimgbuttonall").hide();
-    $(".imgnewImages").attr("src","/Users/jogeswararaokolla/Documents/Images/pineapple.jpeg");
-});
-
-
 startWordGuessGame();
 
 document.onkeyup = function (event) {
 
     let user_key = String.fromCharCode(event.keyCode).toLowerCase();
-// Code to capture the unique user guess letters 
+    // Code to capture the unique user guess letters 
     if (validateCharCode(event.keyCode) && (userKeyPress.indexOf(user_key) == -1)) {
         userKeyPress.push(user_key);
         noOfGuess--;
@@ -123,9 +123,9 @@ document.onkeyup = function (event) {
 
     if (noOfGuess == 0) {
         gameOverStats = true;
-        if(!winStats){
-        losesCount++;
-        document.getElementById("loses").innerText = losesCount;
+        if (!winStats) {
+            losesCount++;
+            document.getElementById("loses").innerText = losesCount;
         }
     }
 
