@@ -15,7 +15,7 @@ let currentWordTmp = [];
 let i = 0,
     startIdx = 0,
     lastIndex = 0;
-let noOfGuess = 15;
+let noOfGuess = 0;
 let randIdx = 0;
 let userKeyPress = [];
 let gameOverStats = false;
@@ -51,7 +51,8 @@ function startWordGuessGame() {
     gameOverStats = false;
     startIdx = 0;
     lastIndex = 0;
-   
+    noOfGuess = 0;
+    noOfGuessArray=[];
     randIdx = Math.floor(Math.random() * guessWordObjArray.length);
     console.log(guessWordObjArray[randIdx]);
     currentWordTmp.length = guessWordObjArray[randIdx].word.length;
@@ -69,7 +70,6 @@ function startWordGuessGame() {
       console.log(noOfGuessArray,noOfGuessArray.length);
       noOfGuess = Math.round(noOfGuessArray.length + ((50*noOfGuessArray.length)/100));
      console.log("noOfGuess : " + noOfGuess);
-
 
     console.log(guessWordList);
     console.log(guessWordObjArray[randIdx].wordimage);
