@@ -28,6 +28,7 @@ let guessWordList = [];
 let guessWordObj = {};
 
 let guessWordObjArray=[];
+let noOfGuessArray=[];
 
 function CreateGuessword() {
     for (let i = 0; i < currentWordList.length; i++) {
@@ -50,13 +51,26 @@ function startWordGuessGame() {
     gameOverStats = false;
     startIdx = 0;
     lastIndex = 0;
-    noOfGuess = 15;
+   
     randIdx = Math.floor(Math.random() * guessWordObjArray.length);
     console.log(guessWordObjArray[randIdx]);
     currentWordTmp.length = guessWordObjArray[randIdx].word.length;
     currentWordTmp.fill('-');
     guessWord = guessWordObjArray[randIdx].word.toLowerCase();
     guessWordList = Array.from(guessWord);
+
+
+      // Code to capture the unique  guess  word letters to determine the no of guesses
+      for(let k=0;k<guessWordList.length;k++){
+        if (noOfGuessArray.indexOf(guessWordList[k]) == -1) {
+            noOfGuessArray.push(guessWordList[k]);
+        }
+      }
+      console.log(noOfGuessArray,noOfGuessArray.length);
+      noOfGuess = Math.round(noOfGuessArray.length + ((50*noOfGuessArray.length)/100));
+     console.log("noOfGuess : " + noOfGuess);
+
+
     console.log(guessWordList);
     console.log(guessWordObjArray[randIdx].wordimage);
     document.getElementById("imageID").src = "../assets/images/" + guessWordObjArray[randIdx].wordimage;
